@@ -13,6 +13,7 @@ from random import sample
 from entities import Entity
 from entities.players import Player
 from engine.Game import Game
+
 import settings
 
 def setup():
@@ -23,7 +24,6 @@ def setup():
 
 def spawn_enemy(game):
     pass
-
 def input_update(pressed_keys):
     movement_keys = {
         K_DOWN: "K_DOWN",
@@ -46,7 +46,6 @@ def input_update(pressed_keys):
 
 def start():
     game = setup()
-    spawn_enemy(game)
     clock = pygame.time.Clock()
     running = True
     while running:

@@ -7,7 +7,7 @@ class Board:
         self.game = game
         self.size = {
             "rows": height,
-            "columns": width,
+            "columns": width
         }
         self.atlas = self.generate_atlas()
         self.draw_board()
