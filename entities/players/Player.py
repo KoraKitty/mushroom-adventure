@@ -1,4 +1,3 @@
-import pygame
 from entities.Entity import Entity
 
 
