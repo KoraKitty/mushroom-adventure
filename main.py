@@ -4,14 +4,10 @@ from pygame.locals import (
     K_DOWN,
     K_LEFT,
     K_RIGHT,
-    K_ESCAPE,
+    K_SPACE,
     KEYDOWN,
-    KEYUP,
     QUIT,
 )
-from random import sample
-from entities import Entity
-from entities.players import Player
 from engine.Game import Game
 
 import settings
@@ -24,38 +20,41 @@ def setup():
 
 def spawn_enemy(game):
     pass
+
 def input_update(pressed_keys):
-    movement_keys = {
-        K_DOWN: "K_DOWN",
-        K_UP: "K_UP",
-        K_LEFT: "K_LEFT",
-        K_RIGHT: "K_RIGHT"
+    action_keys = [K_DOWN, K_UP, K_LEFT, K_RIGHT, K_SPACE]
+    # TODO: Order of action_keys matters, may want to revisit
+    key_values = {
+        K_DOWN: ("move", (0, 1)),
+        K_UP: ("move", (0, -1)),
+        K_LEFT: ("move", (-1, 0)),
+        K_RIGHT: ("move", (1, 0)),
+        K_SPACE: ("attack")
     }
-    move_values = {
-        K_DOWN: (0, 1),
-        K_UP: (0, -1),
-        K_LEFT: (-1, 0),
-        K_RIGHT: (1, 0)
-    }
-    for key in movement_keys:
+    for key in action_keys:
         if pressed_keys[key]:
-            print(movement_keys[key])
-            move = move_values[key]
-            return move
+            print(key_values[key])
+            return key_values[key]
     return False
 
 def start():
     game = setup()
     clock = pygame.time.Clock()
+    game.generate_enemy()
+    game.generate_weapon(game.player, "lvl1_melee.png")
     running = True
     while running:
         clock.tick(game.fps)
         for event in pygame.event.get():
             if event.type == KEYDOWN:
                 pressed_keys = pygame.key.get_pressed()
-                move = input_update(pressed_keys)
-                if move:
-                    game.player.update_pos(move)
+                action = input_update(pressed_keys)
+                if action:
+                    if action[0] == "move":
+                        game.player.move(action[1])
+                    # TODO: action currently returns as string if only one object, need more generic or w/e
+                    elif action == "attack":
+                        game.player.attack()
 
             if event.type == QUIT:
                 running = False
