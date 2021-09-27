@@ -10,4 +10,3 @@ class TextBox(Box):
 
     def create_surface(self, string):
         return self.font.render(string, True, (0, 255, 0))
-

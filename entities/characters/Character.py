@@ -1,5 +1,6 @@
 from entities.Entity import Entity
 
+
 class Character(Entity):
     def __init__(self, game, pos, image_name, level):
         super().__init__(game, pos, image_name)
@@ -15,18 +16,26 @@ class Character(Entity):
         self.tile = self.game.board.get_tile(self.pos)
         self.tile.receive_entity(self)
 
+    def take_damage(self, damage):
+        self.hp = self.hp - damage
+        if self.hp == 0:
+            self.die()
+            loot_dict = {
+                "gold": self.gold
+            }
+            return loot_dict
+        return False
+
     def attack(self):
         # TODO: Update sprite to 'attack' position
         for i in range(self.contains_entity.range):
             check_pos = ((self.pos[0] + (i + 1)), self.pos[1])
             tile = self.game.board.get_tile(check_pos)
             if tile.contains_entity:
-                enemy = tile.contains_entity
-                enemy.hp = enemy.hp - self.contains_entity.damage
-                # TODO: Does it make sense for Character to handle the below, or would it make more sense for it to be calced by board
-                if enemy.hp == 0:
-                    enemy.die()
-                    self.gold = self.gold + enemy.gold
+                loot = tile.contains_entity.take_damage(self.contains_entity.damage)
+                if loot:
+                    # TODO: make an update_loot() process to handle taking in loot and updating the UI
+                    self.gold = self.gold + loot["gold"]
                     self.game.menu_bar.update_gold_textbox()
 
     def move(self, move):
@@ -36,3 +45,6 @@ class Character(Entity):
 
     def die(self):
         self.tile.receive_entity(False)
+        print(f"{self} has died")
+        if "Enemy" in str(type(self)):
+            self.game.enemies.remove(self)

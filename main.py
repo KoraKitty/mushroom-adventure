@@ -9,8 +9,8 @@ from pygame.locals import (
     QUIT,
 )
 from engine.Game import Game
-
 import settings
+
 
 def setup():
     pygame.init()
@@ -18,8 +18,6 @@ def setup():
     pygame.display.set_caption("Game Development?")
     return game
 
-def spawn_enemy(game):
-    pass
 
 def input_update(pressed_keys):
     action_keys = [K_DOWN, K_UP, K_LEFT, K_RIGHT, K_SPACE]
@@ -29,7 +27,7 @@ def input_update(pressed_keys):
         K_UP: ("move", (0, -1)),
         K_LEFT: ("move", (-1, 0)),
         K_RIGHT: ("move", (1, 0)),
-        K_SPACE: ("attack")
+        K_SPACE: "attack"
     }
     for key in action_keys:
         if pressed_keys[key]:
@@ -37,14 +35,14 @@ def input_update(pressed_keys):
             return key_values[key]
     return False
 
+
 def start():
     game = setup()
-    clock = pygame.time.Clock()
-    game.generate_enemy()
+    game.generate_enemy(pos=(game.board_columns - 1, game.board_rows - 1))
     game.generate_weapon(game.player, "lvl1_melee.png")
     running = True
     while running:
-        clock.tick(game.fps)
+        game.take_actions()
         for event in pygame.event.get():
             if event.type == KEYDOWN:
                 pressed_keys = pygame.key.get_pressed()
