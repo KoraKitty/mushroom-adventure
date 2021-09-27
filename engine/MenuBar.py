@@ -1,16 +1,19 @@
-from engine.Box import Box
+from engine.ImageBox import ImageBox
+from engine.TextBox import TextBox
 import pygame
 
-class MenuBar(Box):
+class MenuBar(ImageBox):
     def __init__(self, game, width, height, root, image_name):
         super().__init__(game, width, height, root, image_name)
-        self.gold_box = self.generate_gold_box()
+        self.gold_textbox = self.generate_gold_textbox(offset=(15, 15))
 
-    def generate_gold_box(self):
-        # TODO: Make this less bad
-        font = pygame.font.Font('freesansbold.ttf', 32)
-        text = font.render(f"Gold: {self.game.player.gold}", True, (255, 0, 0))
-        gold_display_box = Box(self.game, self.height, self.height, self.root, text)
-        gold_display_box.font = font
-        return gold_display_box
+    def generate_gold_textbox(self, offset):
+        root = (self.root[0] + offset[0], self.root[1] + offset[1])
+        gold_textbox = TextBox(self.game, self.game.tile_size, self.game.tile_size, root, f"Gold: {self.game.player.gold}")
+        self.receive_box(gold_textbox)
+        return gold_textbox
+
+    def update_gold_textbox(self):
+        self.gold_textbox.update_surface(f"Gold: {self.game.player.gold}")
+
 

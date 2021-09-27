@@ -15,10 +15,10 @@ def get_settings():
 class Game:
     def __init__(self, settings):
         self.tile_size = settings.TILE_SIZE_IN_PIXELS
-        self.board_rows = settings.BOARD_WIDTH
-        self.board_columns = settings.BOARD_HEIGHT
-        self.window_width = self.board_rows * self.tile_size
-        self.window_height = self.board_columns * self.tile_size + self.tile_size
+        self.board_rows = settings.BOARD_HEIGHT
+        self.board_columns = settings.BOARD_WIDTH
+        self.window_width = self.board_columns * self.tile_size
+        self.window_height = self.board_rows * self.tile_size + self.tile_size
         self.window = pygame.display.set_mode([self.window_width, self.window_height])
         self.board = Board(self)
         self.player = self.generate_player()

@@ -27,7 +27,7 @@ class Character(Entity):
                 if enemy.hp == 0:
                     enemy.die()
                     self.gold = self.gold + enemy.gold
-                    self.game.menu_bar.gold_box.update_text()
+                    self.game.menu_bar.update_gold_textbox()
 
     def move(self, move):
         new_pos = (self.pos[0] + move[0], self.pos[1] + move[1])
