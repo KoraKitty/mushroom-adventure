@@ -3,7 +3,7 @@ from random import randint
 from entities.characters.Player import Player
 from entities.characters.Enemy import Enemy
 from entities.Weapon import Weapon
-from engine.MenuBar import MenuBar
+from engine.interface.MenuBar import MenuBar
 from boards.Board import Board
 
 
@@ -20,7 +20,7 @@ class Game:
         self.menu_bar = self.generate_menu_bar()
         self.enemies = []
         self.last_spawn_time = pygame.time.get_ticks()
-        self.spawn_rate_ms = 1250
+        self.spawn_rate_ms = 3500
         self.spawn_boundary = ((self.board_columns - 1, 0), (self.board_columns - 1, self.board_rows - 1))
 
     def generate_player(self, pos=(0, 0), image='player.png', level=1):

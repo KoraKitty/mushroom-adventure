@@ -54,6 +54,12 @@ def start():
                     elif action == "attack":
                         game.player.attack()
 
+            if event.type == pygame.MOUSEBUTTONUP:
+                pos = pygame.mouse.get_pos()
+                button = game.menu_bar.check_if_button(pos)
+                if button:
+                    button.button_func(game)
+
             if event.type == QUIT:
                 running = False
     pygame.quit()

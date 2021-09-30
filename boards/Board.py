@@ -36,4 +36,5 @@ class Board:
         return atlas
 
     def get_tile(self, pos):
+        # TODO: if tile being obtained is out of bounds, the game crashes. Is this a feature? No. No it is not
         return self.atlas[pos[1]][pos[0]]

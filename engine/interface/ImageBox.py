@@ -1,4 +1,4 @@
-from engine.Box import Box
+from engine.interface.Box import Box
 import pygame
 import os
 
@@ -11,3 +11,4 @@ class ImageBox(Box):
         image = pygame.image.load(os.path.join("assets", "images", image_name))
         sprite = pygame.transform.scale(image, (self.width, self.height))
         return sprite.convert()
+

@@ -5,6 +5,6 @@ class Weapon(Entity):
         super().__init__(game, pos, image_name)
         self.character = character
         self.character.receive_entity(self)
-        self.damage = self.character.level
+        self.base_damage = 1
         self.range = 1
 
