@@ -18,5 +18,5 @@ class Player(Character):
         for item in loot:
             if item == "gold":
                 self.stats['gold'] += loot[item]
-                self.game.menu_bar.update_stats_tbox()
+                self.game.menu_bar.update_stats_box()
 

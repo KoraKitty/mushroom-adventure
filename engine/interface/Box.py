@@ -1,24 +1,27 @@
 import pygame
+import os
 
 
 class Box:
-    def __init__(self, game, width, height, root, surface_as_string):
+    def __init__(self, game, width, height, root, surface_string):
         self.game = game
         self.width = width
         self.height = height
+        self.font = pygame.font.Font('freesansbold.ttf', 14)
+        self.surface = self.create_surface(surface_string)
         self.root = root
         self.contains_box = []
         self.parent_box = []
-        self.surface = self.create_surface(surface_as_string)
-        self.draw_box()
         self.button_func = False
+        self.draw_box()
 
-    def create_surface(self, surface_as_string):
-        raise NotImplementedError("ERROR: create_surface() called on base class instance of Box, which is invalid."
-                                  f"Check the creation of this box: {self}, invoke as either TextBox or ImageBox)")
-
-    def update_surface(self, surface_as_string):
-        self.surface = self.create_surface(str(surface_as_string))
+    def create_surface(self, string):
+        if ".png" in string:
+            image = pygame.image.load(os.path.join("assets", "images", string))
+            sprite = pygame.transform.scale(image, (self.width, self.height))
+            return sprite.convert()
+        else:
+            return self.font.render(string, True, (255, 0, 255))
 
     def find_parent_box(self):
         if self.parent_box:
@@ -32,12 +35,17 @@ class Box:
             box.draw_box_tree()
 
     def draw_box(self):
-        if isinstance(self.surface, list):
-            for surface, root in zip(self.surface, self.root):
-                self.game.window.blit(surface, root)
-        else:
-            self.game.window.blit(self.surface, self.root)
+        self.game.window.blit(self.surface, self.root)
         pygame.display.update()
+
+    def generate_box(self, offset, height, width, surface, button_func=False):
+        root = (self.root[0] + offset[0], self.root[1] + offset[1])
+        box = Box(self.game, height, width,
+                       root, surface)
+        if button_func:
+            box.button_func = button_func
+        self.receive_box(box)
+        return box
 
     def receive_box(self, box):
         self.contains_box.append(box)

@@ -3,4 +3,4 @@ def increment_strength(game):
     if game.player.stats['gold'] >= strength_cost:
         game.player.stats['gold'] -= strength_cost
         game.player.stats['strength'] += 1
-        game.menu_bar.update_stats_tbox()
+        game.menu_bar.update_stats_box()
